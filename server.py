@@ -10,7 +10,7 @@ class Server:
         self.app = Flask(__name__)
         self.app.config.from_object(Config)
 
-        CORS(self.app,origins=["http://localhost:5173"],allow_headers=["Content-Type", "Authorization", "X-Response"])  # This will allow all origins by default
+        CORS(self.app)  # This will allow all origins by default
         self.register_routes()
         self.app.add_url_rule("/","home",self.hello,methods=["GET"])
 
