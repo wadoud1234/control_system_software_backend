@@ -12,7 +12,7 @@ class Server:
 
         CORS(self.app,origins=["http://localhost:5173"],allow_headers=["Content-Type", "Authorization", "X-Response"])  # This will allow all origins by default
         self.register_routes()
-        self.app.add_url_rule("/hello","hello",self.hello,methods=["GET"])
+        self.app.add_url_rule("/","home",self.hello,methods=["GET"])
 
     def hello(self):
         return "HELLO"
