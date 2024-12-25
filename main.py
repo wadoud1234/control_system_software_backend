@@ -1,4 +1,4 @@
 from server import Server
 
 server = Server()
-server.app.run()
+app = server.app
