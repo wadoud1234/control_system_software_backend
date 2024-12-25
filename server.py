@@ -9,9 +9,13 @@ class Server:
     def __init__(self):
         self.app = Flask(__name__)
         self.app.config.from_object(Config)
-        CORS(self.app,origins=["http://localhost:5173"],allow_headers=["Content-Type", "Authorization", "X-Response"])  # This will allow all origins by default
 
+        CORS(self.app,origins=["http://localhost:5173"],allow_headers=["Content-Type", "Authorization", "X-Response"])  # This will allow all origins by default
         self.register_routes()
+        self.app.add_url_rule("/hello","hello",self.hello,methods=["GET"])
+
+    def hello(self):
+        return "HELLO"
 
     def register_routes(self):
         self.app.register_blueprint(ss_router.router, url_prefix='/ss')
