@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 import control as ctrl
 import numpy as np
 from control import TransferFunction, StateSpace
-from flask import send_file, Response, jsonify
-import json
+from flask import send_file, jsonify
+
 from base.base_service import BaseService
 from helpers.plotter import Plotter
-from helpers.sanitize_data import sanitize_data
+from helpers import sanitize_data
 
 matplotlib.use("SVG")
 
@@ -179,7 +179,6 @@ class Service(BaseService):
             img_stream,
             mimetype='image/svg+xml',
             # as_attachment=True,
-            # download_name='nyquist_plot.svg'
         )
 
         return response
