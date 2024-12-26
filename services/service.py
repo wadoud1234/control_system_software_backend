@@ -27,11 +27,6 @@ class Service(BaseService):
         img_stream.seek(0)
 
         response = send_file(img_stream, mimetype="image/svg+xml")
-        poles_zeros = {
-            "poles": ctrl.poles(system),
-            "zeros": ctrl.zeros(system),
-        }
-        response.headers['X-Poles-Zeros'] = poles_zeros
         return response
 
     def step(self,
@@ -160,7 +155,7 @@ class Service(BaseService):
                 y_axis,
                 ):
 
-        omega = np.logspace(-200, 200, 10000)
+        omega = np.logspace(-100, 100, 10000)
 
         # Create a larger figure
         plt.figure(figsize=(8, 6))  # Adjust the size (width, height)
