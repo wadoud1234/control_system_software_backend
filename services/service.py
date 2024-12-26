@@ -9,7 +9,7 @@ from flask import send_file, jsonify
 
 from base.base_service import BaseService
 from helpers.plotter import Plotter
-from helpers import sanitize_data
+from helpers.sanitize_data import sanitize_data
 
 matplotlib.use("SVG")
 
@@ -142,14 +142,14 @@ class Service(BaseService):
 
     def bode_performance(self,system:Union[TransferFunction|StateSpace]):
         gm,pm,sm,wpc,wgc,wms = ctrl.stability_margins(system)
-
+        print(gm,pm,sm,wpc,wgc,wms)
         response = [
-            {"key":"Gain Margin","value":gm},
-            {"key":"Phase Margin","value":pm},
-            {"key":"Stability Margin","value":sm},
-            {"key":"Gain Crossover Frequency", "value": wgc},
-            {"key":"Phase Crossover Frequency","value":wpc},
-            {"key":"Stability margin frequency","value":wms},
+            {"key":"Gain Margin","value":sanitize_data(gm)},
+            {"key":"Phase Margin","value":sanitize_data(pm)},
+            {"key":"Stability Margin","value":sanitize_data(sm)},
+            {"key":"Gain Crossover Frequency", "value": sanitize_data(wgc)},
+            {"key":"Phase Crossover Frequency","value":sanitize_data(wpc)},
+            {"key":"Stability margin frequency","value":sanitize_data(wms)},
         ]
 
         return sanitize_data(response)
