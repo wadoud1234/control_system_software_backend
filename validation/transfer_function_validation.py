@@ -1,5 +1,7 @@
 from marshmallow import Schema, fields, validate, validates_schema, ValidationError, INCLUDE
 
+# Une bonne description sur la validation est faites dans le fichier state_space_validation.py ou dans /docs/routers.md
+
 class TransferFunctionPlotInput(Schema):
     num = fields.List(fields.Float, required=True)  # Numerator coefficients of the transfer function
     den = fields.List(fields.Float, required=True)  # Denominator coefficients of the transfer function

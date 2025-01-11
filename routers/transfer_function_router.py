@@ -5,6 +5,7 @@ from services.service import Service
 from validation.transfer_function_validation import TransferFunctionPlotInput, TransferFunctionInput, \
     TransferFunctionPlotInputWithAxis
 
+# Une description est faite dans /docs/routers.md
 
 class TransferFunctionRouter(BaseRouter):
     def __init__(self):
@@ -133,6 +134,7 @@ class TransferFunctionRouter(BaseRouter):
 
     def convert_tf_to_ss(self):
         tf_input = TransferFunctionInput()
+        # utilise try et except pour collecter les erreur et pouvoir travaille avec une solution
         try:
             data = tf_input.load(request.get_json())
         except Exception as err:
@@ -150,6 +152,7 @@ class TransferFunctionRouter(BaseRouter):
         }
         return response
 
+    # extraire les donnee dans la requette (request)
     def extract_input(self, data: TransferFunctionPlotInput):
         return data["num"], data["den"], data["t_max"], data["x_axis"], data["y_axis"]
 

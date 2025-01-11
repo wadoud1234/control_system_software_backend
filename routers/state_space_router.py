@@ -4,6 +4,8 @@ from services.service import Service
 from validation.state_space_validation import StateSpacePlotInput, StateSpaceInput, StateSpacePlotInputWithAxis
 import control as ctrl
 
+# Une description est faite dans /docs/routers.md
+
 class StateSpaceRouter(BaseRouter):
     def __init__(self):
         super().__init__("state_space",__name__)
@@ -15,6 +17,7 @@ class StateSpaceRouter(BaseRouter):
         self.post("/impulse", "impulse", self.impulse)
         self.post("/ramp","ramp",self.ramp)
         self.post("/bode", "bode", self.bode)
+        self.post("/bode/opt","opt bode",self.bode_opt)
         self.post("/nyquist", "nyquist", self.nyquist)
         self.post("/poles_zeros_map","poles_zeros",self.poles_zeros)
         self.post("/step/performance","step_performance",self.step_performance)
@@ -65,6 +68,18 @@ class StateSpaceRouter(BaseRouter):
         A, B, C, D, t_max,x_axis,y_axis = self.extract_input(data)
         system = ctrl.ss(A,B,C,D)
         return self.service.ramp(system, t_max,x_axis,y_axis)
+
+    def bode_opt(self):
+        ss_step_input = StateSpacePlotInput()
+        try:
+            data = ss_step_input.load(request.get_json())
+        except Exception as err:
+            print(err)
+            return {"error": str(err)}, 400
+        A, B, C, D,x_axis= data["A"],data["B"],data["C"],data["D"],data["x_axis"]
+        system = ctrl.ss(A,B,C,D)
+        return self.service.bode_png(system,x_axis,img_format="jpeg")
+
 
     def bode(self):
         ss_step_input = StateSpacePlotInput()

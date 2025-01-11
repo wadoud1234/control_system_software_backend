@@ -1,5 +1,10 @@
 from marshmallow import Schema, fields, validate, validates_schema, ValidationError, INCLUDE
 
+# Bibliotheque marshmallow est utilise pour la validation des requette HTTP
+
+# La validation est utilise pour avoir les donnees necessaire dans une requete HTTP ,
+# tous les attribus sont des fields required ( necessaires ) ,
+# si une ou plus ne sont pas disponibles , la requete est refuse
 
 class StateSpacePlotInput(Schema):
     A = fields.List(fields.List(fields.Float), required=True)  # Matrix A (list of lists of floats)
@@ -9,10 +14,10 @@ class StateSpacePlotInput(Schema):
     t_max = fields.Float(required=True, validate=validate.Range(min=0))  # t_max (float value)
 
     class Meta:
-        unknown = INCLUDE  # This will allow unknown fields in the payload
+        unknown = INCLUDE  # ne refuse pas la requette si il ya des attribus supplementaires dans le requette
 
 
-
+# Cette Classe de validation herite StateSpacePlotInput et ajoute deux autre attribus necessaires y_axis et x_axis
 class StateSpacePlotInputWithAxis(StateSpacePlotInput):
     # Adding x_axis and y_axis fields
     x_axis = fields.List(fields.Float, required=True, validate=validate.Length(equal=2))  # Range for x-axis
@@ -34,4 +39,4 @@ class StateSpaceInput(Schema):
     D = fields.List(fields.List(fields.Float), required=True)  # Matrix D (
 
     class Meta:
-        unknown = INCLUDE  # This will allow unknown fields in the payload
+        unknown = INCLUDE  # ne refuse pas la requette si il ya des attribus supplementaires dans le requette
